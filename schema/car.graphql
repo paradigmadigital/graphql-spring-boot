@@ -1,0 +1,57 @@
+# Coche
+type Car @java(package:"com.paradigma.graphql.schema.car.car") {
+    id: Int! # ! significa obligatorio
+    model: Model!
+    color: String
+    
+}
+
+# Coche
+type QueryCar @java(package:"com.paradigma.graphql.schema.car.car.query") {
+    cars: [Car] # Listado de los coches
+    models(id: Int): [Model] # Listado de los modelos
+    brands(id: Int): [Brand] # Listado de las marcas
+    countries(id: Int): [Country] # Listado de los paises
+}
+
+# Modelo
+type Model @java(package:"com.paradigma.graphql.schema.car.model") {
+    id: Int!
+    name: String
+    brand: Brand!
+    year: Int
+}
+
+# Marca
+type Brand @java(package:"com.paradigma.graphql.schema.car.brand") {
+    id: Int!
+    name: String
+    models: [Model] # Listado de los modelos
+}
+
+# pais
+type Country @java(package:"com.paradigma.graphql.schema.mastertable.country") {
+    id: Int!
+    name: String
+}
+
+# Filtro de los coches
+input InputFilterCar @java(package:"com.paradigma.graphql.schema.car.car.filter") {
+    id: Int!
+    name: String
+    model: Model # 
+}
+
+
+
+# Objeto de entrada para agrupar las propiedades de un coche 
+# input InputCar @java(package:"com.paradigma.graphql.schema.car.car") {
+ #    model: Model!
+  #   color: String!
+# }
+
+# Operaciones sobre los coches:
+# type MutateCars @java(package:"com.paradigma.graphql.schema.car.car") {
+ #    createCar(car:InputCar): Car
+  #   deleteCar(id: Int!): Car
+# }

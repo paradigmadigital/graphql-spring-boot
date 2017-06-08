@@ -1,0 +1,21 @@
+spring:
+      application:
+               name: poc-graphql-app
+server:
+      port: 8080
+      
+      
+graphql:
+      servlet:
+               mapping: /graphql
+               enabled: true
+               corsEnabled: true
+
+      spring-graphql-common:
+               clientMutationIdName: clientMutationId
+               injectClientMutationId: true
+               allowEmptyClientMutationId: false
+               mutationInputArgumentName: input
+               outputObjectNamePrefix: Payload
+               inputObjectNamePrefix: Input
+               schemaMutationObjectName: Mutation      
