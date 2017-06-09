@@ -46,11 +46,11 @@ public class GraphqlConfiguration2 {
 		GraphQLObjectType queryType = (GraphQLObjectType) types.get("QueryCar");
 		GraphQLObjectType mutationType = (GraphQLObjectType) types.get("MutateCars");
 
-		List<GraphQLType> onlyObjectTypes = types.values().stream().filter(f -> f instanceof GraphQLObjectType)
-				.collect(Collectors.toList());
+//		List<GraphQLType> onlyObjectTypes = types.values().stream().filter(f -> f instanceof GraphQLObjectType)
+//				.collect(Collectors.toList());
 
 		GraphQLSchema schema = GraphQLSchema.newSchema().query(queryType).mutation(mutationType)
-				.build(new HashSet<GraphQLType>(onlyObjectTypes));
+				.build(new HashSet<>(types.values()));
 		return schema;
 	}
 

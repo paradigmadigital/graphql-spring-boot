@@ -1,6 +1,6 @@
 # Coche
 type Car @java(package:"com.paradigma.graphql.schema.car.car") {
-    id: Int! # ! significa obligatorio
+    id: String! # ! significa obligatorio
     model: Model!
     color: String
     
@@ -9,14 +9,14 @@ type Car @java(package:"com.paradigma.graphql.schema.car.car") {
 # Coche
 type QueryCar @java(package:"com.paradigma.graphql.schema.car.car.query") {
     cars: [Car] # Listado de los coches
-    models(id: Int): [Model] # Listado de los modelos
-    brands(id: Int): [Brand] # Listado de las marcas
-    countries(id: Int): [Country] # Listado de los paises
+    models(id: String): [Model] # Listado de los modelos
+    brands(id: String): [Brand] # Listado de las marcas
+    countries(id: String): [Country] # Listado de los paises
 }
 
 # Modelo
 type Model @java(package:"com.paradigma.graphql.schema.car.model") {
-    id: Int!
+    id: String!
     name: String
     brand: Brand!
     year: Int
@@ -24,34 +24,42 @@ type Model @java(package:"com.paradigma.graphql.schema.car.model") {
 
 # Marca
 type Brand @java(package:"com.paradigma.graphql.schema.car.brand") {
-    id: Int!
+    id: String!
     name: String
     models: [Model] # Listado de los modelos
 }
 
 # pais
 type Country @java(package:"com.paradigma.graphql.schema.mastertable.country") {
-    id: Int!
+    id: String!
     name: String
 }
 
 # Filtro de los coches
-input InputFilterCar @java(package:"com.paradigma.graphql.schema.car.car.filter") {
-    id: Int!
-    name: String
-    model: Model # 
-}
+#input InputFilterCar @java(package:"com.paradigma.graphql.schema.car.car.filter") {
+#    id: Int!
+#    name: String
+#    model: Model # 
+#}
 
 
 
 # Objeto de entrada para agrupar las propiedades de un coche 
-# input InputCar @java(package:"com.paradigma.graphql.schema.car.car") {
- #    model: Model!
-  #   color: String!
-# }
+input InputCreateCar @java(package:"com.paradigma.graphql.schema.car.car.create") {
+    modelId: String!
+    brandId: String!
+    color: String!
+}
 
 # Operaciones sobre los coches:
-# type MutateCars @java(package:"com.paradigma.graphql.schema.car.car") {
- #    createCar(car:InputCar): Car
-  #   deleteCar(id: Int!): Car
-# }
+type MutateCars @java(package:"com.paradigma.graphql.schema.car.car") {
+     createCar(car:InputCreateCar): Car
+     deleteCar(id: String!): Car
+}
+
+
+
+
+
+
+

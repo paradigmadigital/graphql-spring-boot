@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.2.RELEASE</version>
+		<version>1.5.3.RELEASE</version>
 	</parent>
 
 	<dependencies>
@@ -30,16 +30,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-
-
-
-		<!-- Own <dependency> <groupId>com.merapar</groupId> <artifactId>spring-boot-starter-graphql</artifactId> 
-			<version>1.0.2-alpha</version> </dependency> -->
-		<!-- end::tests[] <dependency> <groupId>com.merapar</groupId> <artifactId>spring-boot-starter-graphql</artifactId> 
-			<version>1.0.1</version> </dependency> -->
-
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
 
 		<!-- Librerias con utilidades para Spring boot -->
 		<dependency>
@@ -47,12 +41,18 @@
 			<artifactId>graphql-spring-boot-starter</artifactId>
 			<version>3.3.0</version>
 		</dependency>
-		
+
 		<!-- to embed GraphiQL tool -->
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphiql-spring-boot-starter</artifactId>
 			<version>3.3.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
 		</dependency>
 
 		<!-- Required by the generated code -->
@@ -240,7 +240,7 @@
 		<apigen.version>2.3.0</apigen.version>
 		<embedler.version>2.0.0</embedler.version>
 		<graphql.version>3.0.0</graphql.version>
-		
+
 	</properties>
 
 </project>

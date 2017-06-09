@@ -1,6 +1,11 @@
 spring:
       application:
                name: poc-graphql-app
+      data:
+          mongodb:
+            uri: mongodb://localhost/cars
+                           
+
 server:
       port: 8080
       
@@ -19,3 +24,4 @@ graphql:
                outputObjectNamePrefix: Payload
                inputObjectNamePrefix: Input
                schemaMutationObjectName: Mutation      
+
