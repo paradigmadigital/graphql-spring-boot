@@ -7,12 +7,13 @@ type Car @java(package:"com.paradigma.graphql.schema.car.car") {
 }
 
 # Coche
-type QueryCar @java(package:"com.paradigma.graphql.schema.car.car.query") {
+type RootQuery @java(package:"com.paradigma.graphql.schema.car.root.query") {
     cars: [Car] # Listado de los coches
     car(id: String!): Car # Coche por id 
     models(id: String): [Model] # Listado de los modelos
+    model(id: String!): Model # Model por id 
     brands(id: String): [Brand] # Listado de las marcas
-    countries(id: String): [Country] # Listado de los paises
+    brand(id: String!): Brand # Marca por id 
 }
 
 # Modelo
@@ -29,11 +30,6 @@ type Brand @java(package:"com.paradigma.graphql.schema.car.brand") {
     name: String
 }
 
-# pais
-type Country @java(package:"com.paradigma.graphql.schema.mastertable.country") {
-    id: String!
-    name: String
-}
 
 # Filtro de los coches
 #input InputFilterCar @java(package:"com.paradigma.graphql.schema.car.car.filter") {

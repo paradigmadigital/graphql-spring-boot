@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.paradigma.graphql.config.GraphqlConfiguration;
+import com.paradigma.vehicles.config.GraphqlConfiguration;
 
 import graphql.ExecutionResult;
 import graphql.GraphQL;
