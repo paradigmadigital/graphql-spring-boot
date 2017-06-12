@@ -3,7 +3,7 @@ package com.paradigma.vehicles.persistence.service.car;
 import java.util.List;
 
 import com.paradigma.graphql.schema.car.car.Car;
-import com.paradigma.vehicles.persistence.model.CarMO;
+import com.paradigma.graphql.schema.car.car.create.InputCreateCar;
 
 /**
  * Operaciones sobre el coche
@@ -17,4 +17,7 @@ public interface CarService {
 
 	public List<Car> findAll();
 
+	public Car createCar(InputCreateCar input);
+
+	public String deleteCar(String id);
 }

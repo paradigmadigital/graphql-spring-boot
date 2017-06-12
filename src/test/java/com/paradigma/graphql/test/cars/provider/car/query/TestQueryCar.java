@@ -31,16 +31,9 @@ import graphql.schema.GraphQLType;
 public class TestQueryCar {
 
 	@Autowired
-	Map<String, GraphQLType> types;
+	GraphQLSchema graphQLSchema;
 
-	public GraphQLSchema createSchema() throws Exception {
-		GraphQLObjectType queryType = (GraphQLObjectType) types.get("QueryCar");
-		GraphQLObjectType mutationType = (GraphQLObjectType) types.get("MutateCars");
-		GraphQLSchema schema = GraphQLSchema.newSchema().query(queryType)
-				.mutation(mutationType).build(new HashSet<>(types.values()));
-		return schema;
-	}
-
+	
 	@Test
 	public void testQuery() throws Exception {
 		// Injector injector = setup();
@@ -49,9 +42,9 @@ public class TestQueryCar {
 		// Map<String, GraphQLType> types =
 		// injector.getInstance(Key.get(new TypeLiteral<Map<String, GraphQLType>>(){}));
 
-		GraphQLSchema schema = createSchema();
+	
 
-		GraphQL graphQL = new GraphQL(schema, new BatchedExecutionStrategy());
+		GraphQL graphQL = new GraphQL(graphQLSchema, new BatchedExecutionStrategy());
 		ObjectMapper om = new ObjectMapper();
 		om.enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
 

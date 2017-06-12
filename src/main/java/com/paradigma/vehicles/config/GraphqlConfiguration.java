@@ -22,6 +22,12 @@ import graphql.schema.GraphQLType;
 @Configuration
 public class GraphqlConfiguration {
 
+	/** Nombre de la Root Query para exponerlo */
+	private static final String QUERY_ROOT = "QueryRoot";
+
+	/** Nombre de la mutación de los coches */
+	private static final String CARS_MUTATION = "MutateCars";
+
 	/**
 	 * Mapa con los tipos disponibles para el schema
 	 * 
@@ -34,9 +40,8 @@ public class GraphqlConfiguration {
 		return types;
 	}
 
-
 	/**
-	 * Integración con el SpringBoot Starter para Graphql, necesita la localización del esquema ya que no se va a usar 
+	 * Integración con el SpringBoot Starter para Graphql, necesita la localización del esquema ya que no se va a usar
 	 * las anotaciones para las declaraciones
 	 * 
 	 * @param typeList
@@ -44,29 +49,28 @@ public class GraphqlConfiguration {
 	 * @throws ClassNotFoundException
 	 */
 	@Bean
-	public graphql.schema.GraphQLSchema graphQLSchemaLocator(List<Provider<? extends GraphQLType>> typeList) throws ClassNotFoundException {
+	public graphql.schema.GraphQLSchema graphQLSchemaLocator(List<Provider<? extends GraphQLType>> typeList)
+			throws ClassNotFoundException {
 		return generateSchema(typeList);
 	}
 
-	
 	/**
-	 * Generamos el schema del Graphql 
+	 * Generamos el schema del Graphql
 	 * 
 	 * @param typeList
 	 * @return
 	 */
 	private GraphQLSchema generateSchema(List<Provider<? extends GraphQLType>> typeList) {
 		Map<String, GraphQLType> types = getGraphqlTypes(typeList);
-		GraphQLObjectType queryType = (GraphQLObjectType) types.get("RootQuery");
-		GraphQLObjectType mutationType = (GraphQLObjectType) types.get("MutateCars");
+		GraphQLObjectType queryType = (GraphQLObjectType) types.get(QUERY_ROOT);
+		GraphQLObjectType mutationType = (GraphQLObjectType) types.get(CARS_MUTATION);
 		GraphQLSchema schema = GraphQLSchema.newSchema().query(queryType).mutation(mutationType)
 				.build(new HashSet<>(types.values()));
 		return schema;
 	}
 
-	
 	/**
-	 * Obtenemos los tipos componentes de nuestro esquema a modo de map para localizar los elementos que deseemos 
+	 * Obtenemos los tipos componentes de nuestro esquema a modo de map para localizar los elementos que deseemos
 	 * 
 	 * @param typeList
 	 * @return
@@ -77,5 +81,4 @@ public class GraphqlConfiguration {
 		return types;
 	}
 
-	
 }

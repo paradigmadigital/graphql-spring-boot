@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.paradigma.graphql.schema.car.brand.Brand;
 import com.paradigma.graphql.schema.car.car.Car;
 import com.paradigma.graphql.schema.car.model.Model;
-import com.paradigma.graphql.schema.car.root.query.RootQuery;
+import com.paradigma.graphql.schema.car.root.query.QueryRoot;
 import com.paradigma.vehicles.persistence.service.brand.BrandService;
 import com.paradigma.vehicles.persistence.service.car.CarService;
 import com.paradigma.vehicles.persistence.service.model.ModelService;
@@ -20,7 +20,7 @@ import com.paradigma.vehicles.persistence.service.model.ModelService;
  *
  */
 @Component
-public class RootQueryImpl implements RootQuery {
+public class QueryRootImpl implements QueryRoot {
 
 	@Autowired
 	CarService carService;
@@ -60,4 +60,5 @@ public class RootQueryImpl implements RootQuery {
 	public Brand brand(BrandArgs args) {
 		return new Brand.Unresolved(args.getId());
 	}
+
 }
