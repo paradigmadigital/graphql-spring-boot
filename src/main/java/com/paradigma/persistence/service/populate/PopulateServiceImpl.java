@@ -2,7 +2,6 @@ package com.paradigma.persistence.service.populate;
 
 import javax.annotation.PostConstruct;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -24,13 +23,8 @@ public class PopulateServiceImpl implements PopulateService {
 	MongoTemplate mongoTemplate;
 
 	
-	
-	
-	
-	
-	
 	/**
-	 * generamos datos de prueba 
+	 * Generamos datos de prueba 
 	 */
 	@PostConstruct
 	public void databasePopulate() {

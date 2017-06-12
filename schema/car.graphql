@@ -9,6 +9,7 @@ type Car @java(package:"com.paradigma.graphql.schema.car.car") {
 # Coche
 type QueryCar @java(package:"com.paradigma.graphql.schema.car.car.query") {
     cars: [Car] # Listado de los coches
+    car(id: String!): Car # Coche por id 
     models(id: String): [Model] # Listado de los modelos
     brands(id: String): [Brand] # Listado de las marcas
     countries(id: String): [Country] # Listado de los paises
@@ -26,7 +27,6 @@ type Model @java(package:"com.paradigma.graphql.schema.car.model") {
 type Brand @java(package:"com.paradigma.graphql.schema.car.brand") {
     id: String!
     name: String
-    models: [Model] # Listado de los modelos
 }
 
 # pais

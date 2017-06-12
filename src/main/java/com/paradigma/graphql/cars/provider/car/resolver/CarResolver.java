@@ -1,10 +1,12 @@
 package com.paradigma.graphql.cars.provider.car.resolver;
 
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.paradigma.graphql.cars.provider.base.BaseResolver;
+import com.paradigma.graphql.schema.car.brand.Brand;
 import com.paradigma.graphql.schema.car.car.Car;
+import com.paradigma.persistence.service.car.CarService;
 
 /**
  * Resolver para la entidad Car
@@ -13,12 +15,20 @@ import com.paradigma.graphql.schema.car.car.Car;
  *
  */
 @Component
-public class CarResolver implements Car.Resolver {
+public class CarResolver extends BaseResolver<Car> implements Car.Resolver {
+
+	@Autowired
+	CarService carService;
 
 	@Override
-	public List<Car> resolve(List<Car> list) {
+	protected Car findById(Car unresolver) {
+		Car findCar = carService.findById(unresolver.getId());
+		return findCar;
+	}
 
-		return list;
+	@Override
+	protected Class<?> unresolvedClass() {
+		return Car.Unresolved.class;
 	}
 
 }
