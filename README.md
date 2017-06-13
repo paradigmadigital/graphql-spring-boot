@@ -171,10 +171,10 @@ mutation {
 ```
 
 
-```graphql
 
 
-```graphql
+
+```:::graphql
 
  {
   cars {
@@ -197,11 +197,23 @@ mutation {
 
 ```
 
-```
+...
 
 
+## Convenciones y código
 
-## Por hacer
+- Carga de datos : dentro del application.yml existe una propiedad para activarla.
+
+- Varias capas:
+ 	
+ 	- Controller: nos lo provee automáticamente el  framework de Spring Boot para Graphql
+ 	
+ 	- Resolver + query : unidos son las clases a implementar para añadir comportamiento a nuestro schema, el concepto de entidad "unresolved" es importante, mediante este tipo se nos "indicará" si hemos de consultar la fuente de datos (persistencia, http, JMS ...). Esto lo provee el framework de Api-gen.
+ 	
+ 	- Service + Repository: típica abstracción para acceso a la persistencia con Spring Data. Este sería el lugar exacto para implementar una cache con la estrategia que queramos adoptar. El sufijo MO significa Model Object y serán los objetos propios de la base de datos.
+ 	
+
+## Pendiente
 
  - Integrar cache
  - Incorporar ejemplo de paginación
