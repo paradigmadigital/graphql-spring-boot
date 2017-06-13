@@ -11,11 +11,13 @@ import javax.inject.Provider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import graphql.schema.GraphQLObjectType;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.GraphQLType;
+
 
 @EnableMongoRepositories(basePackages = "com.paradigma")
 @ComponentScan("com.paradigma")
@@ -52,6 +54,11 @@ public class GraphqlConfiguration {
 	public graphql.schema.GraphQLSchema graphQLSchemaLocator(List<Provider<? extends GraphQLType>> typeList)
 			throws ClassNotFoundException {
 		return generateSchema(typeList);
+	}
+
+	@Bean
+	public PropertySourcesPlaceholderConfigurer configurer() {
+		return new PropertySourcesPlaceholderConfigurer();
 	}
 
 	/**

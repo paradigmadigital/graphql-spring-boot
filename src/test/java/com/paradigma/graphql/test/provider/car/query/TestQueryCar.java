@@ -1,4 +1,4 @@
-package com.paradigma.graphql.test.cars.provider.car.query;
+package com.paradigma.graphql.test.provider.car.query;
 
 import javax.annotation.PostConstruct;
 
@@ -9,12 +9,17 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.paradigma.vehicles.config.GraphqlConfiguration;
+import com.paradigma.vehicles.persistence.model.BrandMO;
+import com.paradigma.vehicles.persistence.model.CarMO;
+import com.paradigma.vehicles.persistence.model.ModelMO;
 
 import graphql.ExecutionResult;
 import graphql.GraphQL;
@@ -27,15 +32,20 @@ import graphql.schema.GraphQLSchema;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = GraphqlConfiguration.class)
+@ContextConfiguration(classes = { GraphqlConfiguration.class, GraphqlConfiguration.class })
 public class TestQueryCar {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TestQueryCar.class);
 
 	@Autowired
 	GraphQLSchema graphQLSchema;
+	
 	GraphQL graphQL;
 
+	@Autowired
+	MongoTemplate mongoTemplate;
+	
+	
 	public TestQueryCar() {
 
 	}
@@ -47,8 +57,9 @@ public class TestQueryCar {
 
 	@Before
 	public void prepareTest() {
-		/* TODO Populamos la base de datos en cada uno de los test ???? */
+		/*  Populamos la base de datos en cada uno de los test ???? */
 		LOGGER.debug("Preparando ejecución");
+		databasePopulate();
 	}
 
 	@Test
@@ -74,7 +85,7 @@ public class TestQueryCar {
 		checkExecution(result);
 
 		// Eliminamos el coche creado
-		result = result = graphQL.execute("mutation{delete(id: \"adasd\"){}}");
+		result = graphQL.execute("mutation{delete(id: \"adasd\"){}}");
 		checkExecution(result);
 	}
 
@@ -93,4 +104,38 @@ public class TestQueryCar {
 		Assert.fail(errors);
 	}
 
+	
+	/**
+	 * generamos datos de prueba 
+	 */
+	public void databasePopulate() {
+		/* Borramos los datos si existieran */
+		mongoTemplate.dropCollection(BrandMO.class);
+		mongoTemplate.dropCollection(ModelMO.class);
+		mongoTemplate.dropCollection(CarMO.class);
+		
+		
+		/* Creamos una marca */
+		BrandMO brandMO = new BrandMO();
+		brandMO.setName("Seat");
+		mongoTemplate.save(brandMO);
+		
+		/* Creamos un modelo */
+		ModelMO modelMO = new ModelMO();
+		modelMO.setBrand(brandMO);
+		modelMO.setName("Ibiza");
+		modelMO.setYear(2011);
+		
+		mongoTemplate.save(modelMO);
+		
+		/* Creamos un coche */
+		CarMO carMO = new CarMO();
+		carMO.setColor("Rojo");
+		carMO.setModel(modelMO);
+		
+		mongoTemplate.save(carMO);
+	}
+
+	
+	
 }

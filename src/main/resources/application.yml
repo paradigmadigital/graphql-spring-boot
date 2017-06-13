@@ -4,13 +4,16 @@ spring:
       data:
           mongodb:
             uri: mongodb://localhost/cars
+           
       output:
-        ansi:
-          enabled: ALWAYS                           
+          ansi:
+            enabled: ALWAYS                           
 
 server:
       port: 8080
-      
+
+populate:
+      active: false
       
 graphql:
       servlet:
