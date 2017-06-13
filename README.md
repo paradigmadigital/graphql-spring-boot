@@ -1,7 +1,6 @@
 # POC Graphql
 
-
-La idea es realizar una prueba de concepto con java para Graphql. 
+![Graphql](doc/image/graphql.png)
 
 
 ## Stack tecnológico:
@@ -9,6 +8,10 @@ La idea es realizar una prueba de concepto con java para Graphql.
 ```
   Spring Boot + MongoDB + Graphql + Logback
 ```
+
+![Stack](doc/image/stack.png)
+
+
 
 Para la integración con Graphql he estado mirando varios frameworks diferentes que faciliten la integración entre ellos y fácil implementación. Algunas de los argumentos para desechar muchos de ellos serían:
 
