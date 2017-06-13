@@ -1,11 +1,13 @@
 package com.paradigma.graphql.test.cars.provider.car.query;
 
-import java.util.HashSet;
-import java.util.Map;
+import javax.annotation.PostConstruct;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -16,12 +18,10 @@ import com.paradigma.vehicles.config.GraphqlConfiguration;
 
 import graphql.ExecutionResult;
 import graphql.GraphQL;
-import graphql.execution.batched.BatchedExecutionStrategy;
-import graphql.schema.GraphQLObjectType;
 import graphql.schema.GraphQLSchema;
-import graphql.schema.GraphQLType;
+
 /**
- * Test asociados a la consulta de la query específica de los cars
+ * Test asociados a la consulta de la query específica de nuestro graphql
  * 
  * @author manuel
  *
@@ -30,72 +30,61 @@ import graphql.schema.GraphQLType;
 @ContextConfiguration(classes = GraphqlConfiguration.class)
 public class TestQueryCar {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(TestQueryCar.class);
+
 	@Autowired
 	GraphQLSchema graphQLSchema;
+	GraphQL graphQL;
 
-	
-	@Test
-	public void testQuery() throws Exception {
-		// Injector injector = setup();
+	public TestQueryCar() {
 
-		// TODO: Support "schema" type so this is generated too :)
-		// Map<String, GraphQLType> types =
-		// injector.getInstance(Key.get(new TypeLiteral<Map<String, GraphQLType>>(){}));
-
-	
-
-		GraphQL graphQL = new GraphQL(graphQLSchema, new BatchedExecutionStrategy());
-		ObjectMapper om = new ObjectMapper();
-		om.enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
-
-		// Using GraphQL Query:
-		ExecutionResult result = graphQL.execute("{cars{id color model{id name}}}");
-		checkExecutionResult(result);
-
-		// // Using GraphQL Mutation:
-		// ExecutionResult result = graphQL.execute(
-		// "mutation{createPost(post:{title:\"NEW\" authorId:1}){title}}",
-		// "authorized-user");
-		// checkExecutionResult(result);
-		// assertEquals("{\"createPost\":{\"title\":\"NEW\"}}", om.writeValueAsString(result.getData()));
-		//
-		// // ...or the API:
-		// MutatePosts mutatePosts = injector.getInstance(MutatePosts.class);
-		// mutatePosts.createPost(new MutatePosts.CreatePostArgs() {
-		// public InputPost getPost() {
-		// return new InputPost.Builder()
-		// .withTitle("API")
-		// .withAuthorId(2)
-		// .build();
-		// }
-		// });
-		//
-		// // Using GraphQL Query:
-		// result = graphQL.execute("{posts{title author{firstName lastName}}}");
-		// checkExecutionResult(result);
-		//
-		// String value = om.writeValueAsString(result.getData());
-		// assertEquals("{\"posts\":[{\"author\":{\"firstName\":\"Brian\",\"lastName\":\"Maher\"},\"title\":\"GraphQL
-		// Rocks\"},{\"author\":{\"firstName\":\"Rahul\",\"lastName\":\"Singh\"},\"title\":\"Announcing
-		// Callisto\"},{\"author\":{\"firstName\":\"Rahul\",\"lastName\":\"Singh\"},\"title\":\"Distelli Contributing to
-		// Open
-		// Source\"},{\"author\":{\"firstName\":\"Brian\",\"lastName\":\"Maher\"},\"title\":\"NEW\"},{\"author\":{\"firstName\":\"Rahul\",\"lastName\":\"Singh\"},\"title\":\"API\"}]}",
-		// value);
-		//
-		// // ...or the API:
-		// QueryPosts queryPosts = injector.getInstance(QueryPosts.class);
-		// List<Post> posts = queryPosts.getPosts();
-		// // ...since we are not using GraphQL, the authors will not be resolved:
-		// assertEquals(posts.get(0).getAuthor().getClass(), Author.Unresolved.class);
-		// assertArrayEquals(
-		// new String[]{"GraphQL Rocks", "Announcing Callisto", "Distelli Contributing to Open Source", "NEW", "API"},
-		// posts.stream().map((post) -> post.getTitle()).toArray(size -> new String[size]));
-		// assertArrayEquals(
-		// new Integer[]{1,2,2,1,2},
-		// posts.stream().map((post) -> post.getAuthor().getId()).toArray(size -> new Integer[size]));
 	}
 
-	private void checkExecutionResult(ExecutionResult result) throws Exception {
+	@PostConstruct
+	public void createGraphQL() {
+		graphQL = new GraphQL.Builder(graphQLSchema).build();
+	}
+
+	@Before
+	public void prepareTest() {
+		/* TODO Populamos la base de datos en cada uno de los test ???? */
+		LOGGER.debug("Preparando ejecución");
+	}
+
+	@Test
+	public void testQuery() throws Exception {
+
+		// Consultas varias
+		ExecutionResult result = graphQL.execute("{cars{id}}");
+		checkExecution(result);
+
+		result = graphQL.execute("{cars{id color model {id name}}}");
+		checkExecution(result);
+
+		result = graphQL.execute("{cars{id color model {id name brand { id name }}}}");
+		checkExecution(result);
+
+	}
+
+	// @Test
+	public void testMutation() throws Exception {
+		// Creamos un Car
+		ExecutionResult result = graphQL
+				.execute("mutation{createCar(car:{color:\"Green\" , modelId:\"593ebb10674d4c0bef6c4c2a\"}){id}}");
+		checkExecution(result);
+
+		// Eliminamos el coche creado
+		result = result = graphQL.execute("mutation{delete(id: \"adasd\"){}}");
+		checkExecution(result);
+	}
+
+	/**
+	 * Validamos si en la ejecución hemos recibido algún error
+	 * 
+	 * @param result
+	 * @throws Exception
+	 */
+	private void checkExecution(ExecutionResult result) throws Exception {
 		if (null == result.getErrors() || result.getErrors().size() <= 0)
 			return;
 		ObjectMapper om = new ObjectMapper();

@@ -1,0 +1,50 @@
+<configuration debug="true">
+
+
+
+
+	<appender name="myFileAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>logs/myvertx.log</File>
+		<encoder>
+			<Pattern>%date %-5level [%thread] %logger{36} [%file:%line] %msg%n
+			</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>logs/graphql%d{yyyy-MM-dd}.log
+			</FileNamePattern>
+		</rollingPolicy>
+	</appender>
+
+
+
+	<!-- Comportamiento asíncrono de los logs  -->
+	<appender name="asyncMyFileAppender" class="ch.qos.logback.classic.AsyncAppender">
+		  <discardingThreshold>0</discardingThreshold>
+	      <queueSize>2048</queueSize>
+	      <maxFlushTime>60000</maxFlushTime>
+	      <appender-ref ref="myFileAppender" />
+	</appender>
+
+
+	<logger name="sysadminday" additivity="false" level="info">
+		<level value="DEBUG" />
+		<appender-ref ref="asyncMyFileAppender" />
+	</logger>
+
+	 
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+			by default -->
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<root level="INFO">
+		<appender-ref ref="asyncMyFileAppender" />
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>

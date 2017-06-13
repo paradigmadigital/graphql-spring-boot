@@ -4,7 +4,9 @@ spring:
       data:
           mongodb:
             uri: mongodb://localhost/cars
-                           
+      output:
+        ansi:
+          enabled: ALWAYS                           
 
 server:
       port: 8080

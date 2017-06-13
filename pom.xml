@@ -39,15 +39,16 @@
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphql-spring-boot-starter</artifactId>
-			<version>3.3.0</version>
+			<version>${graphql.starter.version}</version>
 		</dependency>
 
-		<!-- to embed GraphiQL tool -->
+		<!-- to embed GraphiQL tool  -->
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphiql-spring-boot-starter</artifactId>
-			<version>3.3.0</version>
+			<version>${graphql.starter.version}</version>
 		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -238,6 +239,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<apigen.version>2.3.0</apigen.version>
+		<graphql.starter.version>3.3.0</graphql.starter.version>
 		<embedler.version>2.0.0</embedler.version>
 		<graphql.version>3.0.0</graphql.version>
 

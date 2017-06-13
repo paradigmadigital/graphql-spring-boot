@@ -1,17 +1,22 @@
 package com.paradigma.vehicles.persistence.service.populate;
 
+import java.io.File;
+import java.net.URL;
+
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.CharEncoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.ScriptOperations;
+import org.springframework.data.mongodb.core.script.ExecutableMongoScript;
 import org.springframework.stereotype.Service;
 
-import com.paradigma.vehicles.persistence.model.BrandMO;
-import com.paradigma.vehicles.persistence.model.CarMO;
-import com.paradigma.vehicles.persistence.model.ModelMO;
+import com.google.common.io.Resources;
 
 /**
- * Service con todos los métodos referentes a la entidad Car
+ * Clase de carga de nuestros datos de prueba por entornos
  * 
  * @author manuel
  *
@@ -19,41 +24,27 @@ import com.paradigma.vehicles.persistence.model.ModelMO;
 @Service
 public class PopulateServiceImpl implements PopulateService {
 
+	/** */
+	private static final String SCRIPT_PATH = "data/mongo_model.js";
+	
 	@Autowired
 	MongoTemplate mongoTemplate;
 
 	
+
 	/**
-	 * Generamos datos de prueba 
+	 * Generamos datos de prueba cargando el script 
 	 */
 	@PostConstruct
-	public void databasePopulate() {
-		/* Borramos los datos si existieran */
-		mongoTemplate.dropCollection(BrandMO.class);
-		mongoTemplate.dropCollection(ModelMO.class);
-		mongoTemplate.dropCollection(CarMO.class);
+	public void databasePopulate() throws Exception {
 		
-		
-		/* Creamos una marca */
-		BrandMO brandMO = new BrandMO();
-		brandMO.setName("Seat");
-		mongoTemplate.save(brandMO);
-		
-		/* Creamos un modelo */
-		ModelMO modelMO = new ModelMO();
-		modelMO.setBrand(brandMO);
-		modelMO.setName("Ibiza");
-		modelMO.setYear(2011);
-		
-		mongoTemplate.save(modelMO);
-		
-		/* Creamos un coche */
-		CarMO carMO = new CarMO();
-		carMO.setColor("Rojo");
-		carMO.setModel(modelMO);
-		
-		mongoTemplate.save(carMO);
-		
+		/* Ejecutamos el script */
+		ScriptOperations scriptOps = mongoTemplate.scriptOps();
+		URL url = Resources.getResource(SCRIPT_PATH);
+		/* Leemos del fichero */
+		String mongoScriptContent = FileUtils.readFileToString(new File(url.toURI()), CharEncoding.UTF_8);		
+		ExecutableMongoScript echoScript = new ExecutableMongoScript(mongoScriptContent);
+		scriptOps.execute(echoScript);     		
 	}
-	
+
 }
