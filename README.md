@@ -9,7 +9,7 @@
   Spring Boot + MongoDB + Graphql + Logback
 ```
 
-![Stack](doc/image/stack.png)
+![Stack](doc/image/stack.jpg)
 
 
 
