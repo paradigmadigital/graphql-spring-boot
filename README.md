@@ -1,10 +1,10 @@
-#POC Graphql
+# POC Graphql
 
 
 La idea es realizar una prueba de concepto con java para Graphql. 
 
 
-##Stack tecnológico:
+## Stack tecnológico:
 
 ```
   Spring Boot + MongoDB + Graphql + Logback
@@ -13,10 +13,10 @@ La idea es realizar una prueba de concepto con java para Graphql.
 Para la integración con Graphql he estado mirando varios frameworks diferentes que faciliten la integración entre ellos y fácil implementación. Algunas de los argumentos para desechar muchos de ellos serían:
 
 
-  - Declaración de esquema muy "verboso". Declarar un schema de Graphql en Java es poco natural aun usando frameworks que lo facilitan con anotaciones, la declaración pasa a ser compleja ,tediosa, nada reutilizable ... y sobre todo sobre un entorno fácil de cometer errores. (Spring common https://github.com/oembedler/spring-graphql-common ...)
+  - Declaración de esquema muy "verboso". Declarar un schema de Graphql en Java es poco natural aun usando frameworks que lo facilitan con anotaciones, la declaración pasa a ser compleja ,tediosa, nada reutilizable ... y sobre todo sobre un entorno fácil de cometer errores. ([Spring common](https://github.com/oembedler/spring-graphql-common) ...)
 
 
-  - Los que se refieren a código generado (Schema First), algunos no soportan tipos básicos, otros obligan a generarte tu mismo los pojos (https://github.com/graphql-java/graphql-java-tools) aunque sí ofrecen parseo de esquema ...
+  - Los que se refieren a código generado (Schema First), algunos no soportan tipos básicos, otros obligan a generarte tu mismo los pojos [Graphql tools](https://github.com/graphql-java/graphql-java-tools) aunque sí ofrecen parseo de esquema ...
 
 
   - En el caso de la integración con Spring-JPA creo que es demasiado rígida en cuanto a la filosofía de Graphql y se asume que schema = modelo, y bajo
@@ -26,10 +26,10 @@ Para la integración con Graphql he estado mirando varios frameworks diferentes 
   - Por último otros cuantos acusan la falta de documentación y pocas actualizaciones del repo ..
 
 
-##Frameworks utilizados:
+## Frameworks utilizados:
 
-- Graphql para java https://github.com/graphql-java/graphql-java
-- Graphql-apigen https://github.com/Distelli/graphql-apigen 
+- [Graphql para java](https://github.com/graphql-java/graphql-java)
+- [Graphql-apigen] (https://github.com/Distelli/graphql-apigen) 
       *** Nota: posee un bug en la generación que ya tienen un Merge request (no incluye un impor, basta hacerlo a mano para que funcione de momento)
       
 	Filosofía Schema first :
@@ -40,23 +40,23 @@ Para la integración con Graphql he estado mirando varios frameworks diferentes 
 	- Integración básica con Guice y Spring
 	- Plugin de maven de generación de los fuentes "mvn clean compile" 
 
-- Graphql-Spring-Boot https://github.com/graphql-java/graphql-spring-boot , este es el oficial , no obstante existe una aproximación muy buena también que sería
-     Spring Boot starter Graphql https://github.com/merapar/spring-boot-starter-graphql
+- [Graphql-Spring-Boot](https://github.com/graphql-java/graphql-spring-boot) , este es el oficial , no obstante existe una aproximación muy buena también que sería
+     [Spring Boot starter Graphql](https://github.com/merapar/spring-boot-starter-graphql)
 
 	- Se usa configuración por convención
 	- Implementa la exposición mediante endpoint Http del Graphql Server completa
 	- Permite varias opciones de configuración, entre ellas las estrategias de ejecución de consultas, prefijos de los roles de los objetos ...
-	- Incluye herramienta oficial para consultas Graphiql https://github.com/graphql/graphiql, accesible desde el navegador para la construcción de consultas y mutaciones.
+	- Incluye herramienta oficial para consultas [Graphiql] (https://github.com/graphql/graphiql), accesible desde el navegador para la construcción de consultas y mutaciones.
 
 
 
-##Requisitos
+## Requisitos
 
 Java 1.8
 Maven 3.x
 MongoDB 3.X
 
-##Construcción
+## Construcción
 
 ```
 mvn clean compile
@@ -67,7 +67,7 @@ mvn clean compile
 se deberá tocar a mano desde tu IDE la clase que no compila añadiendo el import que falta . Esto es temporal
 
 
-##Ejecución
+## Ejecución
 
 **** Ver nota anterior
 ```
@@ -75,9 +75,12 @@ java -jar target/poc-grapql-api-gen-fat.jar
 ```
 
 
-##Esquema
+## Esquema
 
-```
+Accede tu mismo al [editor de consultas](http://localhost:8080/) del proyecto, o emplea si deseas [uno externo](https://lucasconstantino.github.io/graphiql-online/)
+
+
+```graphql
 # Coche
 type Car @java(package:"com.paradigma.graphql.schema.car.car") {
     id: String! # ! significa obligatorio
@@ -139,8 +142,66 @@ type MutateCars @java(package:"com.paradigma.graphql.schema.car.car") {
 
 ```
 
+Ejemplos de consultas:
 
-##Por hacer
+```graphql
+
+{
+  cars {
+    id
+  }
+}
+
+```
+
+```graphql
+
+{
+mutation {
+  createCar(car: {modelId: "593ebb10674d4c0bef6c4c2a", color: "Green"}) {
+    id
+    model{
+      id
+    }
+    color
+  }
+ 
+}
+
+```
+
+
+```graphql
+
+
+```graphql
+
+ {
+  cars {
+    id
+    color
+    model {
+      id
+      name
+    }
+  }
+ 
+  models{
+    id
+  }
+  
+  car(id: "asdfadfas"){
+    id
+  }
+}
+
+```
+
+```
+
+
+
+## Por hacer
 
  - Integrar cache
  - Incorporar ejemplo de paginación
