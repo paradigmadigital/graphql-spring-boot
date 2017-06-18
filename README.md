@@ -66,15 +66,12 @@ mvn clean compile
 ```
 
 
-**** Nota: posee un bug en la generación que ya tienen un Merge request (no incluye un impor, basta hacerlo a mano para que funcione de momento) por lo tanto
-se deberá tocar a mano desde tu IDE la clase que no compila añadiendo el import que falta . Esto es temporal
 
 
 ## Ejecución
 
-**** Ver nota anterior
 ```
-java -jar target/poc-grapql-api-gen-fat.jar
+java -jar target/poc-grapql-api-gen-fat.jar o mejor sh build_and_run.sh
 ```
 
 
