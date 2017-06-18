@@ -3,7 +3,7 @@ package com.paradigma.vehicles.persistence.service.car;
 import java.util.List;
 
 import com.paradigma.graphql.schema.car.car.Car;
-import com.paradigma.graphql.schema.car.car.create.InputCreateCar;
+import com.paradigma.graphql.schema.car.car.InputCreateCar;
 
 /**
  * Operaciones sobre el coche

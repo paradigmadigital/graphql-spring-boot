@@ -55,6 +55,19 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.5</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>20.0</version>
+		</dependency>
+
 
 		<!-- Required by the generated code -->
 		<dependency>
@@ -147,6 +160,16 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<classifier>fat</classifier>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-failsafe-plugin</artifactId>
@@ -245,7 +268,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<apigen.version>2.3.0</apigen.version>
+		<apigen.version>3.0.0</apigen.version>
 		<graphql.starter.version>3.3.0</graphql.starter.version>
 		<embedler.version>2.0.0</embedler.version>
 		<graphql.version>3.0.0</graphql.version>

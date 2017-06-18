@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.paradigma.graphql.schema.car.car.Car;
-import com.paradigma.graphql.schema.car.car.create.InputCreateCar;
+import com.paradigma.graphql.schema.car.car.InputCreateCar;
 import com.paradigma.vehicles.persistence.model.CarMO;
 import com.paradigma.vehicles.persistence.model.ModelMO;
 import com.paradigma.vehicles.persistence.repository.car.CarRepository;

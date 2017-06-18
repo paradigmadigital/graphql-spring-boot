@@ -5,7 +5,6 @@ type Car @java(package:"com.paradigma.graphql.schema.car.car") {
     color: String
     
 }
-
 # Root query
 type QueryRoot @java(package:"com.paradigma.graphql.schema.car.root.query") {
     cars: [Car] # Listado de los coches
@@ -15,7 +14,6 @@ type QueryRoot @java(package:"com.paradigma.graphql.schema.car.root.query") {
     brands(id: String): [Brand] # Listado de las marcas
     brand(id: String!): Brand # Marca por id 
 }
-
 # Modelo
 type Model @java(package:"com.paradigma.graphql.schema.car.model") {
     id: String!
@@ -23,33 +21,27 @@ type Model @java(package:"com.paradigma.graphql.schema.car.model") {
     brand: Brand!
     year: Int
 }
-
-# Modelo
+# Consulta del Modelo
 type ModelQuery @java(package:"com.paradigma.graphql.schema.car.model") {
     models(id: String): [Model] # Listado de los modelos
     model(id: String!): Model # Model por id 
 }
-
-
 # Brand
 type BrandQuery @java(package:"com.paradigma.graphql.schema.car.brand") {
     brands(id: String): [Brand] # Listado de las marcas
     brand(id: String!): Brand # Marca por id 
 }
 
-
 # Marca
 type Brand @java(package:"com.paradigma.graphql.schema.car.brand") {
     id: String!
     name: String
 }
-
 # Objeto de entrada para agrupar las propiedades de un coche y crearlo
-input InputCreateCar @java(package:"com.paradigma.graphql.schema.car.car.create") {
+input InputCreateCar @java(package:"com.paradigma.graphql.schema.car.car") {
     modelId: String!
     color: String!
 }
-
 # Operaciones sobre los coches:
 type MutateCars @java(package:"com.paradigma.graphql.schema.car.car") {
      createCar(car:InputCreateCar): Car
