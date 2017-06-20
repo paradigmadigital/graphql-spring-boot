@@ -42,12 +42,15 @@
 			<version>${graphql.starter.version}</version>
 		</dependency>
 
-		<!-- to embed GraphiQL tool -->
+		<!-- to embed GraphiQL tool
+		El problema es que están mal empaquetados los js de graphiql y producen caracteres extraños 
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphiql-spring-boot-starter</artifactId>
 			<version>${graphql.starter.version}</version>
 		</dependency>
+		-->
+
 
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>

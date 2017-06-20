@@ -9,7 +9,34 @@ db.getCollection('brandMO').insert(
     "_id" : ObjectId("593ebb10674d4c0bef6c4c29"),
     "_class" : "com.paradigma.vehicles.persistence.model.BrandMO",
     "name" : "Seat"
+},
+{
+    "_id" : ObjectId(),
+    "_class" : "com.paradigma.vehicles.persistence.model.BrandMO",
+    "name" : "Audi"
+},
+
+{
+    "_id" : ObjectId(),
+    "_class" : "com.paradigma.vehicles.persistence.model.BrandMO",
+    "name" : "Tesla"
+},
+{
+    "_id" : ObjectId(),
+    "_class" : "com.paradigma.vehicles.persistence.model.BrandMO",
+    "name" : "Kia"
+},
+{
+    "_id" : ObjectId(),
+    "_class" : "com.paradigma.vehicles.persistence.model.BrandMO",
+    "name" : "Mercedes"
+},
+{
+    "_id" : ObjectId(),
+    "_class" : "com.paradigma.vehicles.persistence.model.BrandMO",
+    "name" : "Range Rover"
 }
+
 ]
 );
 
