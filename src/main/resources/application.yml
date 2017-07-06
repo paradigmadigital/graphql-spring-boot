@@ -3,7 +3,7 @@ spring:
                name: poc-graphql-app
       data:
           mongodb:
-            uri: mongodb://localhost/cars
+            uri: mongodb://192.168.32.70,192.168.32.123/cars?waitQueueMultiple=10000000
            
       output:
           ansi:
