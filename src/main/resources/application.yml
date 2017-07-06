@@ -13,7 +13,7 @@ server:
       port: 8080
 
 populate:
-      active: true
+      active: false
       
 graphql:
       servlet:
