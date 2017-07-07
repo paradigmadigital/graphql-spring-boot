@@ -5,7 +5,7 @@
 
 	<appender name="myFileAppender"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File>logs/myvertx.log</File>
+		<File>logs/graphql.log</File>
 		<encoder>
 			<Pattern>%date %-5level [%thread] %logger{36} [%file:%line] %msg%n
 			</Pattern>
