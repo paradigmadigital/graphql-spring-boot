@@ -33,7 +33,7 @@ Para la integración con Graphql he estado mirando varios frameworks diferentes 
 
 - [Graphql para java](https://github.com/graphql-java/graphql-java)
 - [Graphql-apigen] (https://github.com/Distelli/graphql-apigen) 
-      *** Nota: posee un bug en la generación que ya tienen un Merge request (no incluye un impor, basta hacerlo a mano para que funcione de momento)
+      
       
 	Filosofía Schema first :
 	- Genera todos los POJOS (Input, Entidades …) 
@@ -65,14 +65,14 @@ MongoDB 3.X
 mvn clean compile
 ```
 
-
-
-
 ## Ejecución
 
 ```
 java -jar target/poc-grapql-api-gen-fat.jar o mejor sh build_and_run.sh
 ```
+
+```
+sh build_and_run.sh
 
 
 ## Esquema
