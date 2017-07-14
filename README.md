@@ -72,7 +72,7 @@ mvn clean compile
 ## Ejecución
 
 ```
-java -jar target/poc-graphql-api-gen-fat.jar o mejor sh build_and_run.sh
+java -jar target/poc-graphql-api-gen-fat.jar 
 o
 sh build_and_run.sh
 ```
