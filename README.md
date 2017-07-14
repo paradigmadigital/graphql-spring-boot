@@ -1,56 +1,19 @@
-# POC Graphql
+# Graphql + Spring Boot + MongoDB 
 
 ![Graphql](doc/image/graphql.png)
 
 
 ## Stack tecnológico:
 
-```
-  Spring Boot + MongoDB + Graphql + Logback
-```
 
 ![Stack](doc/image/stack.jpg)
-
-
-
-Para la integración con Graphql he estado mirando varios frameworks diferentes que faciliten la integración entre ellos y fácil implementación. Algunas de los argumentos para desechar muchos de ellos serían:
-
-
-  - Declaración de esquema muy "verboso". Declarar un schema de Graphql en Java es poco natural aun usando frameworks que lo facilitan con anotaciones, la declaración pasa a ser compleja ,tediosa, nada reutilizable ... y sobre todo sobre un entorno fácil de cometer errores. ([Spring common](https://github.com/oembedler/spring-graphql-common) ...)
-
-
-  - Los que se refieren a código generado (Schema First), algunos no soportan tipos básicos, otros obligan a generarte tu mismo los pojos [Graphql tools](https://github.com/graphql-java/graphql-java-tools) aunque sí ofrecen parseo de esquema ...
-
-
-  - En el caso de la integración con Spring-JPA creo que es demasiado rígida en cuanto a la filosofía de Graphql y se asume que schema = modelo, y bajo
-  dicha premisa sería mejor usar un Spring Data Rest
-
-
-  - Por último otros cuantos acusan la falta de documentación y pocas actualizaciones del repo ..
 
 
 ## Frameworks utilizados:
 
 - [Graphql para java](https://github.com/graphql-java/graphql-java)
 - [Graphql-apigen] (https://github.com/Distelli/graphql-apigen) 
-      
-      
-	Filosofía Schema first :
-	- Genera todos los POJOS (Input, Entidades …) 
-	- Permite estructuración en paquetes de un modo sencillo
-	- Genera armazón de clases para la inclusión nuestra programación, y es extensible, usa intefaces para todo.
-	- Genera clases @fluent
-	- Integración básica con Guice y Spring
-	- Plugin de maven de generación de los fuentes "mvn clean compile" 
-
-- [Graphql-Spring-Boot](https://github.com/graphql-java/graphql-spring-boot) , este es el oficial , no obstante existe una aproximación muy buena también que sería
-     [Spring Boot starter Graphql](https://github.com/merapar/spring-boot-starter-graphql)
-
-	- Se usa configuración por convención
-	- Implementa la exposición mediante endpoint Http del Graphql Server completa
-	- Permite varias opciones de configuración, entre ellas las estrategias de ejecución de consultas, prefijos de los roles de los objetos ...
-	- Incluye herramienta oficial para consultas [Graphiql] (https://github.com/graphql/graphiql), accesible desde el navegador para la construcción de consultas y mutaciones.
-
+- [Graphql-Spring-Boot](https://github.com/graphql-java/graphql-spring-boot)
 
 
 ## Requisitos
@@ -58,6 +21,47 @@ Para la integración con Graphql he estado mirando varios frameworks diferentes 
 Java 1.8
 Maven 3.x
 MongoDB 3.X
+
+
+## Configuración
+
+Fichero application.yml 
+
+```
+spring:
+      application:
+               name: poc-graphql-app
+      data:
+          mongodb:
+            uri: mongodb://localhost/cars # Configuracion a la mongo
+server:
+      port: 8080
+
+populate:
+      active: true # Carga de datos inicial para pruebas data/mongo_model.js
+      
+graphql:
+      servlet:
+               mapping: /graphql
+               enabled: true
+               corsEnabled: true
+
+      spring-graphql-common:
+               clientMutationIdName: clientMutationId
+               injectClientMutationId: true
+               allowEmptyClientMutationId: false
+               mutationInputArgumentName: input
+               outputObjectNamePrefix: Payload
+               inputObjectNamePrefix: Input
+               schemaMutationObjectName: Mutation      
+```
+
+
+
+
+
+
+
 
 ## Construcción
 
@@ -69,15 +73,17 @@ mvn clean compile
 
 ```
 java -jar target/poc-graphql-api-gen-fat.jar o mejor sh build_and_run.sh
+o
+sh build_and_run.sh
 ```
 
-```
-sh build_and_run.sh
+
+
 
 
 ## Esquema
 
-Accede tu mismo al [editor de consultas](http://localhost:8080/) del proyecto, o emplea si deseas [uno externo](https://lucasconstantino.github.io/graphiql-online/)
+Accede tu mismo al [editor de consultas](http://localhost:8080/) del proyecto una vez arrancado
 
 
 ```graphql
@@ -142,7 +148,7 @@ type MutateCars @java(package:"com.paradigma.graphql.schema.car.car") {
 
 ```
 
-Ejemplos de consultas:
+Ejemplos de consultas y mutaciones:
 
 ```graphql
 
@@ -156,7 +162,6 @@ Ejemplos de consultas:
 
 ```graphql
 
-{
 mutation {
   createCar(car: {modelId: "593ebb10674d4c0bef6c4c2a", color: "Green"}) {
     id
@@ -169,8 +174,6 @@ mutation {
 }
 
 ```
-
-
 
 
 
@@ -190,7 +193,7 @@ mutation {
     id
   }
   
-  car(id: "asdfadfas"){
+  car(id: "_id_que_corresponda_"){
     id
   }
 }
@@ -198,27 +201,6 @@ mutation {
 ```
 
 ...
-
-
-## Convenciones y código
-
-- Carga de datos : dentro del application.yml existe una propiedad para activarla.
-
-- Varias capas:
- 	
- 	- Controller: nos lo provee automáticamente el  framework de Spring Boot para Graphql
- 	
- 	- Resolver + query : unidos son las clases a implementar para añadir comportamiento a nuestro schema, el concepto de entidad "unresolved" es importante, mediante este tipo se nos "indicará" si hemos de consultar la fuente de datos (persistencia, http, JMS ...). Esto lo provee el framework de Api-gen.
- 	
- 	- Service + Repository: típica abstracción para acceso a la persistencia con Spring Data. Este sería el lugar exacto para implementar una cache con la estrategia que queramos adoptar. El sufijo MO significa Model Object y serán los objetos propios de la base de datos.
- 	
-
-## Pendiente
-
- - Integrar cache
- - Incorporar ejemplo de paginación
- - Incorporar relaciones más complejas
- - Medir rendimiento
 
 
 
