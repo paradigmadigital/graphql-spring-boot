@@ -72,7 +72,7 @@ public class CarServiceImpl implements CarService {
 		/* Comprobamos si existe el modelo del cual queremos crear el coche */
 		ModelMO modelMO = modelRepository.findOne(input.getModelId());
 		if (modelMO == null) {
-			throw new NoSuchElementException("El coche no existe en la base de datos ");
+			throw new NoSuchElementException("El modelo no existe en la base de datos ");
 		}
 		carMO.setModel(modelMO);
 		/* Almacenamos el elemento */

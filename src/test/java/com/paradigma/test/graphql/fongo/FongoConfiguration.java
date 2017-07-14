@@ -1,4 +1,4 @@
-package com.paradigma.graphql.fongo;
+package com.paradigma.test.graphql.fongo;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

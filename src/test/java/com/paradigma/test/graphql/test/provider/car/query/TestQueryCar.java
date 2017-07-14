@@ -1,4 +1,6 @@
-package com.paradigma.graphql.test.provider.car.query;
+package com.paradigma.test.graphql.test.provider.car.query;
+
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -11,11 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.paradigma.test.graphql.fongo.FongoConfiguration;
 import com.paradigma.vehicles.config.GraphqlConfiguration;
 import com.paradigma.vehicles.persistence.model.BrandMO;
 import com.paradigma.vehicles.persistence.model.CarMO;
@@ -32,7 +36,7 @@ import graphql.schema.GraphQLSchema;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { GraphqlConfiguration.class, GraphqlConfiguration.class })
+@ContextConfiguration(classes = { GraphqlConfiguration.class, FongoConfiguration.class })
 @Profile("test")
 public class TestQueryCar {
 
@@ -78,15 +82,12 @@ public class TestQueryCar {
 
 	}
 
-	// @Test
+	@Test
 	public void testMutation() throws Exception {
+		ModelMO modelMO = mongoTemplate.find(new Query().limit(1), ModelMO.class).iterator().next();
 		// Creamos un Car
 		ExecutionResult result = graphQL
-				.execute("mutation{createCar(car:{color:\"Green\" , modelId:\"593ebb10674d4c0bef6c4c2a\"}){id}}");
-		checkExecution(result);
-
-		// Eliminamos el coche creado
-		result = graphQL.execute("mutation{delete(id: \"adasd\"){}}");
+				.execute("mutation createCar {createCar(car:{color:\"Green\" , modelId:\"" + modelMO.getId() + "\"}){id}}");
 		checkExecution(result);
 	}
 
