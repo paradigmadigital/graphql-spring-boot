@@ -3,17 +3,12 @@ spring:
                name: poc-graphql-app
       data:
           mongodb:
-            uri: mongodb://192.168.32.70,192.168.32.123/cars?waitQueueMultiple=10000000
-           
-      output:
-          ansi:
-            enabled: ALWAYS                           
-
+            uri: mongodb://localhost/cars?waitQueueMultiple=10000000
 server:
       port: 8080
 
 populate:
-      active: false
+      active: true
       
 graphql:
       servlet:

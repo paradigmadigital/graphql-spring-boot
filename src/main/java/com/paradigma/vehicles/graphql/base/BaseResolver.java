@@ -5,8 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.paradigma.graphql.schema.car.car.Car.Unresolved;
-
 /**
  * Clase base para los resolvers con la implementación por defecto
  * 
